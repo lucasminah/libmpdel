@@ -347,7 +347,7 @@ If the SONG's name is nil, return the filename instead."
    :file (cdr (assq 'file song-data))
    :album (libmpdel--album-create
            :name (cdr (assq 'Album song-data))
-           :artist (libmpdel--artist-create :name (cdr (assq 'Artist song-data))))
+           :artist (libmpdel--artist-create :name (cdr (assq 'AlbumArtist song-data))))
    :date (cdr (assq 'Date song-data))
    :disc (cdr (assq 'Disc song-data))
    :id (cdr (assq 'Id song-data))
@@ -884,7 +884,7 @@ If HANDLER is nil, ignore response."
 
 (cl-defmethod libmpdel-entity-to-criteria ((artist libmpdel-artist))
   "Return search query matching all songs from ARTIST."
-  (format "artist %S" (libmpdel-entity-name artist)))
+  (format "albumartist %S" (libmpdel-entity-name artist)))
 
 (cl-defmethod libmpdel-entity-to-criteria ((album libmpdel-album))
   "Return search query matching all songs from ALBUM."
@@ -905,12 +905,12 @@ If HANDLER is nil, ignore response."
 (cl-defmethod libmpdel-list ((_entity (eql artists)) function)
   "Call FUNCTION with all artists as parameter."
   (libmpdel-send-command
-   "list artist"
+   "list albumartist"
    (lambda (data)
      (funcall function
               (mapcar
                (lambda (artist-name) (libmpdel--artist-create :name artist-name))
-               (libmpdel-sorted-entries data 'Artist))))))
+               (libmpdel-sorted-entries data 'AlbumArtist))))))
 
 (defvar libmpdel--unknown-artist
   (libmpdel--artist-create :name "")
