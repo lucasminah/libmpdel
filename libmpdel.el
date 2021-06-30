@@ -951,7 +951,7 @@ If HANDLER is nil, ignore response."
 (cl-defgeneric libmpdel-list-songs (entity function)
   "Call FUNCTION with all songs of ENTITY."
   (libmpdel-send-command
-   `("find %s" ,(libmpdel-entity-to-criteria entity))
+   `("search %s" ,(libmpdel-entity-to-criteria entity))
    (lambda (data)
      (funcall function (libmpdel--create-songs-from-data data)))))
 
@@ -1006,7 +1006,7 @@ ENTITY can also be a list of entities to add.")
     (libmpdel-send-command
      (if (and (stringp id) (not (string-empty-p id)))
          `("addid %S" ,id)
-       `("findadd %s" ,(libmpdel-entity-to-criteria entity))))))
+       `("searchadd %s" ,(libmpdel-entity-to-criteria entity))))))
 
 (cl-defmethod libmpdel-playlist-add (entity (stored-playlist libmpdel-stored-playlist))
   "Add ENTITY to STORED-PLAYLIST."
